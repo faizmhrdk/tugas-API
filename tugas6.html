@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daftar Kucing Lucu</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        button {
+            padding: 10px 20px;
+            background-color: #ff9800;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-bottom: 20px;
+        }
+        .cat { margin-bottom: 25px; }
+        .cat img {
+            width: 250px;
+            border-radius: 12px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.2);
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Daftar Kucing Lucu </h1>
+    <button onclick="loadCats()">Tampilkan Kucing</button>
+
+    <div class="cat-list"></div>
+
+    <script>
+        function loadCats() {
+            document.querySelector(".cat-list").innerHTML = ""; // HAPUS GAMBAR LAMA
+
+            fetch("https://api.thecatapi.com/v1/images/search?limit=5")
+                .then(res => res.json())
+                .then(data => {
+                    let html = "";
+                    for (let i = 0; i < data.length; i++) {
+                        html += `
+                            <div class="cat">
+                                <img src="${data[i].url}">
+                                <h3>Kucing #${i + 1}</h3>
+                            </div>
+                        `;
+                    }
+                    document.querySelector(".cat-list").innerHTML = html;
+                });
+        }
+    </script>
+
+</body>
+</html>
